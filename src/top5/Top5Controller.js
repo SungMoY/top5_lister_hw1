@@ -48,13 +48,16 @@ export default class Top5Controller {
                     textInput.ondblclick = (event) => {
                         this.ignoreParentClick(event);
                     }
+                    //After opening and editing text box of an item, hitting 'enter' finishes the edit
                     textInput.onkeydown = (event) => {
                         if (event.key === 'Enter') {
                             this.model.addChangeItemTransaction(i-1, event.target.value);
                         }
                     }
+                    //After opening and editing text box of an item, clicking away finishes the edit
                     textInput.onblur = (event) => {
-                        this.model.restoreList();
+                        this.model.addChangeItemTransaction(i-1, event.target.value);
+                        //this.model.restoreList();
                     }
                 }
             }
@@ -81,6 +84,21 @@ export default class Top5Controller {
             deleteSpan.appendChild(document.createTextNode(listName));
             modal.classList.add("is-visible");
         }
+
+        //
+        document.getElementById("top5-list-" + id).ondblclick = (event) => {
+            let textInput = document.createElement("input");
+            textInput.setAttribute("type", "text");
+            textInput.setAttribute("id", "item-text-input-" + id);
+            textInput.setAttribute("value", this.model.currentList.getName());
+
+            this.model.currentList.getName();
+            this.model.currentList.setName(textInput);
+            this.model.currentList.getName();
+            
+            this.model.restoreList();
+        }
+        //
     }
 
     ignoreParentClick(event) {
