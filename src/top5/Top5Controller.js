@@ -48,12 +48,14 @@ export default class Top5Controller {
                     textInput.ondblclick = (event) => {
                         this.ignoreParentClick(event);
                     }
+
                     //After opening and editing text box of an item, hitting 'enter' finishes the edit
                     textInput.onkeydown = (event) => {
                         if (event.key === 'Enter') {
                             this.model.addChangeItemTransaction(i-1, event.target.value);
                         }
                     }
+
                     //After opening and editing text box of an item, clicking away finishes the edit
                     textInput.onblur = (event) => {
                         this.model.addChangeItemTransaction(i-1, event.target.value);
@@ -86,19 +88,35 @@ export default class Top5Controller {
         }
 
         //
+
+        
         document.getElementById("top5-list-" + id).ondblclick = (event) => {
+
             let textInput = document.createElement("input");
             textInput.setAttribute("type", "text");
             textInput.setAttribute("id", "item-text-input-" + id);
             textInput.setAttribute("value", this.model.currentList.getName());
 
-            this.model.currentList.getName();
-            this.model.currentList.setName(textInput);
-            this.model.currentList.getName();
-            
-            this.model.restoreList();
+            let item  = document.getElementById("top5-list-"+id);
+            item.innerHTML="";
+            item.appendChild(textInput);
+
+            textInput.ondblclick = (event) => {
+                this.ignoreParentClick(event);
+            }
+
+            //After opening and editing text box of an item, hitting 'enter' finishes the edit
+            textInput.onkeydown = (event) => {
+                if (event.key === 'Enter') {
+                    this.model.addChangeListNameTransaction(id, event.target.value);
+                }
+            }
+            //After opening and editing text box of an item, clicking away finishes the edit
+            textInput.onblur = (event) => {
+                this.model.addChangeListNameTransaction(id, event.target.value);
+                //this.model.restoreList();
+            }
         }
-        //
     }
 
     ignoreParentClick(event) {

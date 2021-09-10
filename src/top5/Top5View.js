@@ -68,6 +68,18 @@ export default class Top5View {
         }
     }
 
+    updateListName(top5list, id) {
+        let item = document.getElementById("top5-list-"+id);
+        item.innerHTML = "";
+
+        let newListName = top5list[id].getName();
+
+        item.appendChild(document.createTextNode(newListName));
+
+        console.log("newListName", newListName);
+        //this.Top5List[id].setName(this.Top5List[id].getName());
+    }
+
     clearWorkspace() {
         // REMOVE THE ITEMS
         for (let i = 0; i < 5; i++) {

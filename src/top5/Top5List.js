@@ -6,7 +6,7 @@
  * @author McKilla Gorilla
  * @author ?
  */
-export default class Top5List {
+ export default class Top5List {
     constructor(initId) {
         this.id = initId;
     }
