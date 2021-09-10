@@ -12,7 +12,7 @@ import Top5Controller from './Top5Controller.js';
  * @author ?
  */
 
-export class Top5ListerApp {
+export class Top5ListerAppTESTING {
     constructor() {
         // FIRST MAKE THE APP COMPONENTS
         this.model = new Top5Model();
