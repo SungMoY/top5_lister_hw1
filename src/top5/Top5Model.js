@@ -64,18 +64,24 @@ export default class Top5Model {
     }
 
     sortLists() {
-        this.top5Lists.sort((listA, listB) => {
-            if (listA.getName() < listB.getName()) {
-                return -1;
+        for (let i = 0; i < this.top5Lists.length; i++) {
+            for (let j = 0; j < this.top5Lists.length-i-1;i++) {
+                console.log("jName", this.top5Lists[j].getName());
+                console.log("j+1Name", this.top5Lists[j+1].getName());
+                console.log("compare", (this.top5Lists[j].getName().localeCompare(this.top5Lists[j+1].getName()) < 0));
+                if (this.top5Lists[j].getName().localeCompare(this.top5Lists[j+1].getName()) > 0) {
+                    let temp = this.top5Lists[j];
+                    this.top5Lists[j] = this.top5Lists[j+1];
+                    this.top5Lists[j+1] = temp;
+
+                    let tempid = this.top5Lists[j].id;
+                    this.top5Lists[j].id = this.top5Lists[j+1].id;
+                    this.top5Lists[j+1].id = tempid;
+                } 
             }
-            else if (listA.getName === listB.getName()) {
-                return 0;
-            }
-            else {
-                return 1;
-            }
-        });
+        }
         this.view.refreshLists(this.top5Lists);
+        this.saveLists();
     }
 
     hasCurrentList() {
@@ -161,10 +167,9 @@ export default class Top5Model {
 
     changeListName(id, text) {
         this.top5Lists[id].setName(text);
-        
         this.view.updateListName(this.top5Lists, id);
-
         this.saveLists();
+        this.sortLists();
 
     }
 
