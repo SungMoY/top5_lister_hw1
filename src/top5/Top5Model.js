@@ -65,10 +65,7 @@ export default class Top5Model {
 
     sortLists() {
         for (let i = 0; i < this.top5Lists.length; i++) {
-            for (let j = 0; j < this.top5Lists.length-i-1;i++) {
-                console.log("jName", this.top5Lists[j].getName());
-                console.log("j+1Name", this.top5Lists[j+1].getName());
-                console.log("compare", (this.top5Lists[j].getName().localeCompare(this.top5Lists[j+1].getName()) < 0));
+            for (let j = 0; j < this.top5Lists.length-i-1;j++) {
                 if (this.top5Lists[j].getName().localeCompare(this.top5Lists[j+1].getName()) > 0) {
                     let temp = this.top5Lists[j];
                     this.top5Lists[j] = this.top5Lists[j+1];
@@ -170,6 +167,18 @@ export default class Top5Model {
         this.view.updateListName(this.top5Lists, id);
         this.saveLists();
         this.sortLists();
+
+    }
+
+    HoverHighlight(listid) {
+        this.view.HighlightBlackWhite(listid);
+    }
+
+    offHoverHighlight(listid) {
+        this.view.offHighlightBlackWhite(listid);
+    }
+
+    selectedHighlight(listid) {
 
     }
 

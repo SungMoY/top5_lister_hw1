@@ -48,7 +48,7 @@ export class Top5ListerApp {
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 let lists = JSON.parse(this.responseText).top5Lists;
-                console.log("loadListsFromJSON", lists)
+                
                 // GO THROUGH THE DATA AND LOAD IT INTO OUR APP
                 for (let i = 0; i < lists.length; i++) {
                     let listData = lists[i];

@@ -70,7 +70,8 @@ export default class Top5Controller {
         // FOR SELECTING THE LIST
         document.getElementById("top5-list-" + id).onmousedown = (event) => {
             this.model.unselectAll();
-
+            
+            this.model.selectedHighlight(id);
             // GET THE SELECTED LIST
             this.model.loadList(id);
         }
@@ -87,9 +88,6 @@ export default class Top5Controller {
             modal.classList.add("is-visible");
         }
 
-        //
-
-        
         document.getElementById("top5-list-" + id).ondblclick = (event) => {
 
             let textInput = document.createElement("input");
@@ -108,6 +106,7 @@ export default class Top5Controller {
             //After opening and editing text box of an item, hitting 'enter' finishes the edit
             textInput.onkeydown = (event) => {
                 if (event.key === 'Enter') {
+
                     this.model.addChangeListNameTransaction(id, event.target.value);
                 }
             }
@@ -117,10 +116,20 @@ export default class Top5Controller {
                 //this.model.restoreList();
             }
         }
+
+        document.getElementById("top5-list-" + id).onmouseover = (event) => {
+            this.model.HoverHighlight("top5-list-" + id);
+        }
+
+        document.getElementById("top5-list-" + id).onmouseout = (event) => {
+            this.model.offHoverHighlight("top5-list-" + id);
+        }
+        //console.log(document.getElementById("top5-list-3").getName());
     }
 
     ignoreParentClick(event) {
         event.cancelBubble = true;
         if (event.stopPropagation) event.stopPropagation();
     }
+
 }
