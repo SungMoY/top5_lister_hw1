@@ -70,8 +70,6 @@ export default class Top5Controller {
         // FOR SELECTING THE LIST
         document.getElementById("top5-list-" + id).onmousedown = (event) => {
             this.model.unselectAll();
-            
-            this.model.selectedHighlight(id);
             // GET THE SELECTED LIST
             this.model.loadList(id);
         }
@@ -81,11 +79,21 @@ export default class Top5Controller {
             // VERIFY THAT THE USER REALLY WANTS TO DELETE THE LIST
             let modal = document.getElementById("delete-modal");
             this.listToDeleteIndex = id;
+            console.log(this.listToDeleteIndex);
             let listName = this.model.getList(id).getName();
             let deleteSpan = document.getElementById("delete-list-span");
             deleteSpan.innerHTML = "";
             deleteSpan.appendChild(document.createTextNode(listName));
             modal.classList.add("is-visible");
+
+            // confirming or cancelling/losing focus delete
+            document.getElementById("dialog-confirm-button").onmousedown = (event) => {
+                this.model.deleteList(this.listToDeleteIndex);
+                modal.classList.remove("is-visible");
+            }
+            document.getElementById("dialog-cancel-button").onmousedown = (event) => {
+                modal.classList.remove("is-visible");
+            }
         }
 
         document.getElementById("top5-list-" + id).ondblclick = (event) => {
@@ -102,11 +110,9 @@ export default class Top5Controller {
             textInput.ondblclick = (event) => {
                 this.ignoreParentClick(event);
             }
-
             //After opening and editing text box of an item, hitting 'enter' finishes the edit
             textInput.onkeydown = (event) => {
                 if (event.key === 'Enter') {
-
                     this.model.addChangeListNameTransaction(id, event.target.value);
                 }
             }
@@ -120,13 +126,11 @@ export default class Top5Controller {
         document.getElementById("top5-list-" + id).onmouseover = (event) => {
             this.model.HoverHighlight("top5-list-" + id);
         }
-
         document.getElementById("top5-list-" + id).onmouseout = (event) => {
             this.model.offHoverHighlight("top5-list-" + id);
         }
-        //console.log(document.getElementById("top5-list-3").getName());
-    }
 
+    }
     ignoreParentClick(event) {
         event.cancelBubble = true;
         if (event.stopPropagation) event.stopPropagation();

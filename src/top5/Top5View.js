@@ -98,11 +98,7 @@ export default class Top5View {
         let listCard = document.getElementById("top5-list-" + listId);
         listCard.classList.remove("unselected-list-card");
         listCard.classList.add("selected-list-card");
-
-       listCard.style.backgroundColor = "#669966";
-       console.log("clicked and color changed");
-       //listCard.style.color = "black";
-       //listCard.setAttribute("selected", "true")
+        listCard.style.backgroundColor = "rgb(102, 153, 102)";
     }
 
     unhighlightList(listId) {
@@ -110,16 +106,13 @@ export default class Top5View {
         let listCard = document.getElementById("top5-list-" + listId);
         listCard.classList.add("unselected-list-card");
         listCard.classList.remove("selected-list-card");
-        listCard.style.backgroundColor = "#e1e4cb";
+        listCard.style.backgroundColor = "rgb(225, 228, 203)";
         listCard.style.color = "black";
     }
 
     HighlightBlackWhite(listId) {
         let listCard = document.getElementById(listId);
-        if (listCard.style.backgroundColor == "rgb(102, 153, 102)") {
-            console.log("no skip");
-        } else {
-            console.log("skip");
+        if (!(listCard.style.backgroundColor == "rgb(102, 153, 102)")) {
             listCard.style.backgroundColor = "black";
             listCard.style.color = "white";
         }
@@ -127,12 +120,8 @@ export default class Top5View {
 
     offHighlightBlackWhite(listId) {
         let listCard = document.getElementById(listId);
-        console.log("color", listCard.style.backgroundColor);
-        if (listCard.style.backgroundColor == "rgb(102, 153, 102)") {
-            console.log("no skip");
-        } else {
-            console.log("skip");
-            listCard.style.backgroundColor = "#e1e4cb";
+        if (!(listCard.style.backgroundColor == "rgb(102, 153, 102)")) {
+            listCard.style.backgroundColor = "rgb(225, 228, 203)";
             listCard.style.color = "black";
         }
     }

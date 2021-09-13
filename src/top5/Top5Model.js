@@ -167,19 +167,33 @@ export default class Top5Model {
         this.view.updateListName(this.top5Lists, id);
         this.saveLists();
         this.sortLists();
-
     }
 
-    HoverHighlight(listid) {
-        this.view.HighlightBlackWhite(listid);
+    HoverHighlight(listId) {
+        this.view.HighlightBlackWhite(listId);
     }
 
-    offHoverHighlight(listid) {
-        this.view.offHighlightBlackWhite(listid);
+    offHoverHighlight(listId) {
+        this.view.offHighlightBlackWhite(listId);
     }
 
-    selectedHighlight(listid) {
-
+    deleteList(listId) {
+        let newTop5List = [];
+        let idAssign = 0;
+        for (let i = 0; i < this.top5Lists.length; i++) {
+            if (this.top5Lists[i] == this.top5Lists[listId]) {
+                
+            } else {
+                this.top5Lists[i].id = idAssign;
+                idAssign++;
+                newTop5List.push(this.top5Lists[i])
+            }
+        }
+        this.top5Lists = newTop5List;
+        if (this.top5Lists.length == 0) {
+            this.nextListId = 0;
+        }
+        this.view.refreshLists(this.top5Lists);
     }
 
     // SIMPLE UNDO/REDO FUNCTIONS
