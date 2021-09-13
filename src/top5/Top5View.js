@@ -86,6 +86,7 @@ export default class Top5View {
     disableButton(id) {
         let button = document.getElementById(id);
         button.classList.add("disabled");
+
     }
 
     enableButton(id) {
@@ -128,11 +129,16 @@ export default class Top5View {
 
     updateToolbarButtons(model) {
         let tps = model.tps;
-        if (!tps.hasTransactionToUndo()) {
-            this.disableButton("undo-button");
+        if (tps.hasTransactionToUndo()) {
+            this.enableButton("undo-button");
         }
         else {
-            this.enableButton("undo-button");
-        }   
+            this.disableButton("undo-button");
+        }
+        if (tps.hasTransactionToRedo()) {
+            this.enableButton("redo-button");
+        } else {
+            this.disableButton("redo-button");
+        }
     }
 }

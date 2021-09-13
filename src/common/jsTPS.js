@@ -54,6 +54,7 @@ export default class jsTPS {
         // MANAGE CONCURRENT UPDATES
         this.performingDo = false;
         this.performingUndo = false;
+        this.performingRedo = false;
     }
 
     /**
@@ -74,6 +75,10 @@ export default class jsTPS {
      */
     isPerformingUndo() {
         return this.performingUndo;
+    }
+
+    isPerformingRedo() {
+        return this.performingRedo;
     }
 
     /**
@@ -181,6 +186,18 @@ export default class jsTPS {
             transaction.undoTransaction();
             this.mostRecentTransaction--;
             this.performingUndo = false;
+        }
+    }
+
+    redoTransaction() {
+        if (this.hasTransactionToRedo) {
+            this.performingRedo = true;
+            console.log(this.transactions[this.mostRecentTransaction+1]);
+            let transaction = this.transactions[this.mostRecentTransaction+1];
+            console.log(transaction);
+            transaction.redoTransaction();
+            this.mostRecentTransaction++;
+            this.performingRedo = false;
         }
     }
 

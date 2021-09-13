@@ -26,6 +26,10 @@ export default class Top5Controller {
         document.getElementById("undo-button").onmousedown = (event) => {
             this.model.undo();
         }
+        document.getElementById("redo-button").onmousedown = (event) => {
+            this.model.redo();
+        }
+        this.model.buttonControl(this.model);
 
         // SETUP THE ITEM HANDLERS
         for (let i = 1; i <= 5; i++) {
@@ -53,12 +57,14 @@ export default class Top5Controller {
                     textInput.onkeydown = (event) => {
                         if (event.key === 'Enter') {
                             this.model.addChangeItemTransaction(i-1, event.target.value);
+                            this.model.buttonControl(this.model);
                         }
                     }
 
                     //After opening and editing text box of an item, clicking away finishes the edit
                     textInput.onblur = (event) => {
                         this.model.addChangeItemTransaction(i-1, event.target.value);
+                        this.model.buttonControl(this.model);
                         //this.model.restoreList();
                     }
                 }
@@ -113,13 +119,12 @@ export default class Top5Controller {
             //After opening and editing text box of an item, hitting 'enter' finishes the edit
             textInput.onkeydown = (event) => {
                 if (event.key === 'Enter') {
-                    this.model.addChangeListNameTransaction(id, event.target.value);
+                    this.model.changeListName(id, event.target.value);
                 }
             }
             //After opening and editing text box of an item, clicking away finishes the edit
             textInput.onblur = (event) => {
-                this.model.addChangeListNameTransaction(id, event.target.value);
-                //this.model.restoreList();
+                this.model.changeListName(id, event.target.value);
             }
         }
 
@@ -135,5 +140,4 @@ export default class Top5Controller {
         event.cancelBubble = true;
         if (event.stopPropagation) event.stopPropagation();
     }
-
 }
