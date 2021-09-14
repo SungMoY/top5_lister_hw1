@@ -83,10 +83,19 @@ export default class Top5View {
         }
     }
 
+    updateStatusBar(list) {
+        let item = document.getElementById("top5-statusbar");
+        item.innerHTML = list.getName();
+    }
+
+    removeStatusBar() {
+        let item = document.getElementById("top5-statusbar");
+        item.innerHTML = "";
+    }
+
     disableButton(id) {
         let button = document.getElementById(id);
         button.classList.add("disabled");
-
     }
 
     enableButton(id) {
@@ -140,5 +149,16 @@ export default class Top5View {
         } else {
             this.disableButton("redo-button");
         }
+        if (model.hasCurrentList()) {
+            this.enableButton("close-button");
+        } else {
+            this.disableButton("close-button");
+        }
+    }
+    viewDisableAddList(model) {
+        this.disableButton("add-list-button")
+    }
+    viewEnableAddList(model) {
+        this.enableButton("add-list-button")
     }
 }

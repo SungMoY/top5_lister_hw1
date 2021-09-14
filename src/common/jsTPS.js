@@ -192,9 +192,7 @@ export default class jsTPS {
     redoTransaction() {
         if (this.hasTransactionToRedo) {
             this.performingRedo = true;
-            console.log(this.transactions[this.mostRecentTransaction+1]);
             let transaction = this.transactions[this.mostRecentTransaction+1];
-            console.log(transaction);
             transaction.redoTransaction();
             this.mostRecentTransaction++;
             this.performingRedo = false;

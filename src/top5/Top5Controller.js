@@ -8,7 +8,8 @@
  */
 export default class Top5Controller {
     constructor() {
-
+        this.dragItem;
+        this.dragDestination;
     }
 
     setModel(initModel) {
@@ -17,11 +18,14 @@ export default class Top5Controller {
     }
 
     initHandlers() {
+
         // SETUP THE TOOLBAR BUTTON HANDLERS
         document.getElementById("add-list-button").onmousedown = (event) => {
-            let newList = this.model.addNewList("Untitled", ["?","?","?","?","?"]);            
-            this.model.loadList(newList.id);
-            this.model.saveLists();
+            let newList = this.model.addNewList("Untitled", ["?","?","?","?","?"]);
+            if (newList != undefined) {
+                this.model.loadList(newList.id);
+                this.model.saveLists();
+            }
         }
         document.getElementById("undo-button").onmousedown = (event) => {
             this.model.undo();
@@ -34,6 +38,26 @@ export default class Top5Controller {
         // SETUP THE ITEM HANDLERS
         for (let i = 1; i <= 5; i++) {
             let item = document.getElementById("item-" + i);
+
+            {
+            item.addEventListener("dragstart", dragStart);
+            item.addEventListener("dragover", dragOver);
+            item.addEventListener("drop", drop);
+            let _this = this;
+            function dragStart(e) {
+                _this.dragItem = i;
+            }
+            function dragOver(e) {
+                e.preventDefault();
+            }
+            function drop(e) {
+                e.preventDefault();
+                _this.dragDestination = i;
+                _this.model.addMoveItemTransaction(_this.dragItem, _this.dragDestination);
+                _this.model.buttonControl(_this.model);
+            }
+            }
+            
 
             // AND FOR TEXT EDITING
             item.ondblclick = (ev) => {
@@ -78,6 +102,11 @@ export default class Top5Controller {
             this.model.unselectAll();
             // GET THE SELECTED LIST
             this.model.loadList(id);
+
+            document.getElementById("close-button").onmousedown = (event) => {
+                this.model.closeList();
+                this.model.buttonControl(this.model);
+            }
         }
         // FOR DELETING THE LIST
         document.getElementById("delete-list-" + id).onmousedown = (event) => {
@@ -85,7 +114,6 @@ export default class Top5Controller {
             // VERIFY THAT THE USER REALLY WANTS TO DELETE THE LIST
             let modal = document.getElementById("delete-modal");
             this.listToDeleteIndex = id;
-            console.log(this.listToDeleteIndex);
             let listName = this.model.getList(id).getName();
             let deleteSpan = document.getElementById("delete-list-span");
             deleteSpan.innerHTML = "";
@@ -103,13 +131,13 @@ export default class Top5Controller {
         }
 
         document.getElementById("top5-list-" + id).ondblclick = (event) => {
-
+            this.model.disableAddList();
             let textInput = document.createElement("input");
             textInput.setAttribute("type", "text");
             textInput.setAttribute("id", "item-text-input-" + id);
             textInput.setAttribute("value", this.model.currentList.getName());
 
-            let item  = document.getElementById("top5-list-"+id);
+            let item = document.getElementById("top5-list-"+id);
             item.innerHTML="";
             item.appendChild(textInput);
 
@@ -120,11 +148,13 @@ export default class Top5Controller {
             textInput.onkeydown = (event) => {
                 if (event.key === 'Enter') {
                     this.model.changeListName(id, event.target.value);
+                    this.model.enableAddList();
                 }
             }
             //After opening and editing text box of an item, clicking away finishes the edit
             textInput.onblur = (event) => {
                 this.model.changeListName(id, event.target.value);
+                this.model.enableAddList();
             }
         }
 
