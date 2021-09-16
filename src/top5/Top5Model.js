@@ -178,6 +178,9 @@ export default class Top5Model {
     }
 
     changeItem(id, text) {
+        if (text == "") {
+            text = "?"
+        }
         this.currentList.items[id] = text;
         this.view.update(this.currentList);
         this.saveLists();
